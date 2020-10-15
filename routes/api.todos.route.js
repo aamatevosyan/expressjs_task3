@@ -26,18 +26,20 @@ const editNoteValidation = {
 
 router.route('/')
     .get(function (req, res) {
-        res.json({
+        res.status(200).json({
             success: true,
             data: Object.fromEntries(notes.entries)
         });
     })
     .post(validate(newNoteValidation, {}, {}), function (req, res) {
         const {noteText} = req.body;
-        notes.add(noteText);
+        const uuid = notes.add(noteText);
         console.log(notes);
 
-        res.json({
-            success: true
+        res.status(200).json({
+            success: true,
+            uuid: uuid,
+            noteText: noteText 
         });
     });
 
@@ -46,7 +48,7 @@ router.route('/:uuid')
         if (!notes.edit(req.params.uuid, req.body.noteText)) {
             next("Invalid uuid.");
         } else {
-            res.json({
+            res.status(200).json({
                 success: true
             });
         }
@@ -55,7 +57,7 @@ router.route('/:uuid')
         if (!notes.delete(req.params.uuid)) {
             next("Invalid uuid.");
         } else {
-            res.json({
+            res.status(200).json({
                 success: true
             });
         }
