@@ -23,7 +23,7 @@
 !.cpplint
 
 # === Rules for root dir ===
-/core
+#/core
 /vgcore.*
 /v8*.log
 /perf.data
