@@ -43,12 +43,9 @@ class NotesController {
 
     async reloadData() {
         const data = await this.getNotes();
-        console.log(data);
-        let isEmpty = true;
 
         for (const [key, value] of Object.entries(data)) {
             this.addEntrie(key, value);
-            isEmpty = false;
         }
 
         if (this.entries.size === 0) {
@@ -93,8 +90,8 @@ class NotesController {
     }
 
     async editEntrie(uuid) {
-        console.log(this.entries.get(uuid));
         const noteText = prompt("Please enter text.", this.entries.get(uuid));
+
         if (noteText != null) {
             const response = await fetch(this.url + uuid, {
                 method: 'PUT',
@@ -109,18 +106,15 @@ class NotesController {
                 this.root.find(".row").each(function( index ) {
                     if ($(this).attr("uuid") === uuid) {
                         const el = $(this).find("> div.col-8.badge.badge-light.text-wrap.text-break");
-                        console.log(el);
                         el.text(noteText);
                         return;
                     }
-                  });
+                });
             }
         }
     }
 
     async deleteEntrie(uuid) {
-        console.log(uuid);
-
         const response = await fetch(this.url + uuid, {
             method: 'DELETE',
         });
